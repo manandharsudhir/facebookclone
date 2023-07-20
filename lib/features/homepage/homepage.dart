@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'components/story_item_widget.dart';
+
 class Homepage extends StatefulWidget {
   const Homepage({
     super.key,
@@ -162,10 +164,121 @@ class _HomepageState extends State<Homepage>
                               ],
                             ),
                           ),
-                          StoryItemWidget(),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          ListView.separated(
+                            itemBuilder: (context, index) => StoryItemWidget(),
+                            separatorBuilder: (context, index) => SizedBox(
+                              width: 8,
+                            ),
+                            itemCount: 5,
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            physics: NeverScrollableScrollPhysics(),
+                          )
                         ],
                       ),
                       Text("Reels"),
+                    ],
+                  ),
+                ),
+                Divider(
+                  thickness: 10,
+                ),
+                Container(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Row(
+                          children: [
+                            CircleAvatar(),
+                            SizedBox(
+                              width: 8,
+                            ),
+                            Expanded(
+                                child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                RichText(
+                                    text: TextSpan(
+                                        text: "John Mobbin",
+                                        children: [
+                                          TextSpan(
+                                              text: " added a new reel",
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                              )),
+                                          TextSpan(
+                                            text: " reel",
+                                          )
+                                        ],
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                        ))),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "Just Now",
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 4,
+                                    ),
+                                    Icon(
+                                      FontAwesomeIcons.music,
+                                      size: 14,
+                                    ),
+                                    SizedBox(
+                                      width: 8,
+                                    ),
+                                    Text(
+                                      "Just Now",
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 4,
+                                    ),
+                                    Icon(
+                                      FontAwesomeIcons.peopleGroup,
+                                      size: 14,
+                                    )
+                                  ],
+                                )
+                              ],
+                            )),
+                            Icon(FontAwesomeIcons.ellipsis)
+                          ],
+                        ),
+                      ),
+                      Image.network(
+                        "https://images.pexels.com/photos/15236595/pexels-photo-15236595/free-photo-of-baku.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+                        height: 400,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                      Row(
+                        children: [
+                          SocialHandler(
+                            icon: FontAwesomeIcons.thumbsUp,
+                            text: "Like",
+                          ),
+                          SocialHandler(
+                            icon: FontAwesomeIcons.message,
+                            text: "Comment",
+                          ),
+                          SocialHandler(
+                            icon: FontAwesomeIcons.share,
+                            text: "Share",
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 )
@@ -178,57 +291,27 @@ class _HomepageState extends State<Homepage>
   }
 }
 
-class StoryItemWidget extends StatelessWidget {
-  const StoryItemWidget({
+class SocialHandler extends StatelessWidget {
+  const SocialHandler({
     super.key,
+    required this.icon,
+    required this.text,
   });
+
+  final IconData icon;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: Colors.grey,
-        ),
-        color: Colors.grey.shade300,
-      ),
-      height: 100,
-      width: 120,
-      clipBehavior: Clip.hardEdge,
-      child: Stack(
-        fit: StackFit.expand,
+    return Expanded(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.network(
-            "https://images.pexels.com/photos/15236595/pexels-photo-15236595/free-photo-of-baku.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-            fit: BoxFit.cover,
+          Icon(icon),
+          SizedBox(
+            width: 8,
           ),
-          Positioned(
-            top: 10,
-            left: 10,
-            child: Container(
-              height: 40,
-              width: 40,
-              decoration: BoxDecoration(
-                color: Colors.red,
-                shape: BoxShape.circle,
-              ),
-              clipBehavior: Clip.hardEdge,
-              child: Image.network(
-                "https://images.pexels.com/photos/15236595/pexels-photo-15236595/free-photo-of-baku.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Positioned(
-              bottom: 10,
-              left: 8,
-              child: Text(
-                "BBC News",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              )),
+          Text(text)
         ],
       ),
     );
